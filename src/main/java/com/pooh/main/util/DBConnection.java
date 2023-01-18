@@ -78,7 +78,7 @@ public class DBConnection {
 	}
 	
 	
-	//연결을 끊어주는 메서드도 공통부분이기 때문에 DBConnection에 만듦,
+	//연결을 끊어주는 메서드도 공통부분이기 때문에 DBConnection를 만듦
 	public static void disconnect(ResultSet rs, PreparedStatement st, Connection connection) throws Exception{ 
 		rs.close();
 		st.close();

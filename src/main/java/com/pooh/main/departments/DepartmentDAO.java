@@ -68,8 +68,7 @@ public class DepartmentDAO {
 		//4. Query문 미리 보내기
 		PreparedStatement st = connection.prepareStatement(sql);
 		
-		//5. (option)?에 값을 세팅 - 있으면 하고 없으면 말자
-		
+		//5. ?에 값을 세팅 - (option)
 		
 		//6. 최종 전송 및 결과 처리
 		ResultSet rs = st.executeQuery(); //rs는 connection에 연결되어있고, connection 쿼리를 st에 저장해줌

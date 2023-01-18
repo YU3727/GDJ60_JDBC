@@ -1,6 +1,8 @@
 package com.pooh.main;
 
+import com.pooh.main.departments.DepartmentController;
 import com.pooh.main.departments.DepartmentDAO;
+import com.pooh.main.locations.LocationController;
 import com.pooh.main.locations.LocationDAO;
 import com.pooh.main.util.DBConnection;
 
@@ -9,15 +11,14 @@ public class JDBCMain {
 	public static void main(String[] args) {
 		
 		System.out.println("Start");
-		
-		DepartmentDAO ddao = new DepartmentDAO();
-		LocationDAO ldao = new LocationDAO();
+		DepartmentController dCon = new DepartmentController(); //생성자 호출
+		LocationController lCon = new LocationController();
 		
 		try {
-//			ddao.getList();
-//			ldao.getList();
-//			ddao.getDetail(30);
-			ldao.getDetail(20);
+			
+//			dCon.start();
+			lCon.start();
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
