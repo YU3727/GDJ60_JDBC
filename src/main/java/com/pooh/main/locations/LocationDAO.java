@@ -52,7 +52,7 @@ public class LocationDAO {
 	
 	
 	public LocationDTO getDetail(int location_id) throws Exception{
-		LocationDTO lDTO = new LocationDTO();
+		LocationDTO lDTO = null;
 		
 		//1, 2 연결준비
 		Connection connection = DBConnection.getConnection();
@@ -84,8 +84,6 @@ public class LocationDAO {
 //			System.out.print(rs.getString("CITY")+"\t");
 //			System.out.print(rs.getString("STATE_PROVINCE")+"\t");
 //			System.out.println(rs.getString("COUNTRY_ID"));
-		}else {
-			System.out.println("Data가 없습니다");
 		}
 		
 		//7. 연결해제

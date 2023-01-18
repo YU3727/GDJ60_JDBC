@@ -13,8 +13,7 @@ public class DepartmentDAO {
 	
 	//3교시 하나의 값을 출력하기
 	public DepartmentDTO getDetail(int department_id) throws Exception{
-		
-		DepartmentDTO dDTO = new DepartmentDTO();
+		DepartmentDTO dDTO = null;
 		
 		//1, 2. DB접속
 		Connection connection = DBConnection.getConnection();
