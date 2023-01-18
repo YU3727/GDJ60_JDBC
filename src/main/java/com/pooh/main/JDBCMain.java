@@ -1,5 +1,7 @@
 package com.pooh.main;
 
+import com.pooh.main.departments.DepartmentDAO;
+import com.pooh.main.locations.LocationDAO;
 import com.pooh.main.util.DBConnection;
 
 public class JDBCMain {
@@ -8,10 +10,14 @@ public class JDBCMain {
 		
 		System.out.println("Start");
 		
-		DBConnection con = new DBConnection();
+		DepartmentDAO ddao = new DepartmentDAO();
+		LocationDAO ldao = new LocationDAO();
 		
 		try {
-			con.getConnection();
+//			ddao.getList();
+//			ldao.getList();
+//			ddao.getDetail(30);
+			ldao.getDetail(20);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
