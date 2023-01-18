@@ -4,13 +4,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import com.pooh.main.util.DBConnection;
 
 public class LocationDAO {
 //230118 1~2교시 java-DB 연결 준비
 	
-	public void getDetail(int location_id) throws Exception{
+	public LocationDTO getDetail(int location_id) throws Exception{
+		LocationDTO lDTO = new LocationDTO();
 		
 		//1, 2 연결준비
 		Connection connection = DBConnection.getConnection();
@@ -28,12 +30,20 @@ public class LocationDAO {
 		ResultSet rs = st.executeQuery();
 		
 		if(rs.next()) {
-			System.out.print(rs.getInt("LOCATION_ID")+"\t");
-			System.out.print(rs.getString("STREET_ADDRESS")+"\t");
-			System.out.print(rs.getString("POSTAL_CODE")+"\t");
-			System.out.print(rs.getString("CITY")+"\t");
-			System.out.print(rs.getString("STATE_PROVINCE")+"\t");
-			System.out.println(rs.getString("COUNTRY_ID"));
+			lDTO = new LocationDTO();
+			lDTO.setLocation_id(rs.getInt("LOCATION_ID"));
+			lDTO.setStreet_address(rs.getString("STREET_ADDRESS"));
+			lDTO.setPostal_code(rs.getString("POSTAL_CODE"));
+			lDTO.setCity(rs.getString("CITY"));
+			lDTO.setState_province(rs.getString("STATE_PROVINCE"));
+			lDTO.setCountry_id(rs.getString("COUNTRY_ID"));
+			
+//			System.out.print(rs.getInt("LOCATION_ID")+"\t");
+//			System.out.print(rs.getString("STREET_ADDRESS")+"\t");
+//			System.out.print(rs.getString("POSTAL_CODE")+"\t");
+//			System.out.print(rs.getString("CITY")+"\t");
+//			System.out.print(rs.getString("STATE_PROVINCE")+"\t");
+//			System.out.println(rs.getString("COUNTRY_ID"));
 		}else {
 			System.out.println("데이터가 없습니다(데이터 범위 : 1000~3200, 100단위)");
 		}
@@ -41,12 +51,15 @@ public class LocationDAO {
 		//7. 연결해제
 		DBConnection.disconnect(rs, st, connection);
 		
+		
+		return lDTO;
 	}
 	
 	
 	
 	
-	public void getList() throws Exception {
+	public ArrayList<LocationDTO> getList() throws Exception {
+		ArrayList<LocationDTO> ar = new ArrayList<LocationDTO>();
 		//혼자 코드 진행하는 연습(큰 뼈대 맞추고 세부진행)
 		
 		//DepartmentDAO, LocationDAO에서 공통적인 부분인 연결부분을 주석처리하고 DBConnection에서 공통으로 처리하자
@@ -80,16 +93,20 @@ public class LocationDAO {
 		ResultSet rs = st.executeQuery();
 		
 		while(rs.next()) {
-			System.out.print(rs.getInt("LOCATION_ID")+"\t");
-			System.out.print(rs.getString("STREET_ADDRESS")+"\t");
-			System.out.print(rs.getString("POSTAL_CODE")+"\t");
-			System.out.print(rs.getString("CITY")+"\t");
-			System.out.print(rs.getString("STATE_PROVINCE")+"\t");
-			System.out.println(rs.getString("COUNTRY_ID"));
+			LocationDTO lDTO = new LocationDTO();
+			lDTO.setLocation_id(rs.getInt("LOCATION_ID"));
+			lDTO.setStreet_address(rs.getString("STREET_ADDRESS"));
+			lDTO.setPostal_code(rs.getString("POSTAL_CODE"));
+			lDTO.setCity(rs.getString("CITY"));
+			lDTO.setState_province(rs.getString("STATE_PROVINCE"));
+			lDTO.setCountry_id(rs.getString("COUNTRY_ID"));
+			ar.add(lDTO);
 		}
 		
 		
 		//7. 연결 해제
 		DBConnection.disconnect(rs, st, connection);
+		
+		return ar;
 	}
 }

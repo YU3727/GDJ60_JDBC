@@ -16,8 +16,8 @@ public class JDBCMain {
 		
 		try {
 			
-//			dCon.start();
-			lCon.start();
+			dCon.start();
+//			lCon.start();
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -22,6 +22,12 @@ public class DBConnection {
 		//String url = "jdbc:oracle:thin:ip:port:SID";         //SID로 접속할 경우
 		String url = "jdbc:oracle:thin:@localhost:1521/XEPDB1"; //여기로 접속하세요~의 의미
 		
+		// 4)driver정보 - 요샌 안써도 된다고 함.
+		String driver = "oracle.jdbc.driver.OracleDriver"; //package명.OracleDriver클래스명
+		
+		//'driver명을 클래스 이름처럼 쓰겠다'는 의미
+		Class.forName(driver);
+		
 		//2. DB 접속 실행
 		Connection connection = DriverManager.getConnection(url, username, password);
 		//연결해주는 Socket 같은애(Connection 인터페이스) - 로그인을 시도하고 성공하면 객체가 온다. 실패하면 Exception 발생
@@ -36,11 +42,6 @@ public class DBConnection {
 		
 //		===============================================================================================
 		
-//		// 4)driver정보 - 요샌 안써도 된다고 함.
-//		String driver = "oracle.jdbc.driver.OracleDriver"; //package명.OracleDriver클래스명
-//		
-//		//'driver명을 클래스 이름처럼 쓰겠다'는 의미
-//		Class.forName(driver);
 		
 //		System.out.println(connection); //이 주소값이 출력되면 연결이 됐다는 뜻
 	

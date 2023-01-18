@@ -1,5 +1,6 @@
 package com.pooh.main.departments;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DepartmentController {
@@ -8,13 +9,14 @@ public class DepartmentController {
 	//멤버변수 - 의존성 표시
 	private Scanner sc;
 	private DepartmentDAO dDAO;
+	private DepartmentView dView;
 	
 	
 	//생성자에 객체생성 - 의존성 주입(injection)
 	public DepartmentController() {
 		this.sc = new Scanner(System.in);
 		this.dDAO = new DepartmentDAO();
-		
+		this.dView = new DepartmentView();
 	}
 	
 	
@@ -31,24 +33,28 @@ public class DepartmentController {
 			default :
 				System.out.println("1~3번 메뉴중 선택하세요");
 				break;
-			case 1:
-				dDAO.getList();
+			case 1: //모든부서
+				ArrayList<DepartmentDTO> ar = dDAO.getList();
+				dView.view(ar);
 				break;
-			case 2:
+			case 2: //한 부서
 				System.out.println("부서 번호를 입력하세요");
 				select = sc.nextInt();
-				dDAO.getDetail(select);
+				DepartmentDTO dDTO = dDAO.getDetail(select);
+				if(dDTO != null) {
+					dView.view(dDTO);
+				}else {
+					dView.view("Data가 없습니다");
+				}
 				break;
 			case 3:
 				System.out.println("프로그램을 종료합니다");
 				check = false;
 			
-			
 			}
+			
 		}
 		
-		
 	}
-	
 	
 }

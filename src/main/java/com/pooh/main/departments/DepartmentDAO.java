@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import com.pooh.main.util.DBConnection;
 
@@ -11,7 +12,10 @@ public class DepartmentDAO {
 //230118 1~2교시 java-DB 연결 준비
 	
 	//3교시 하나의 값을 출력하기
-	public void getDetail(int department_id) throws Exception{
+	public DepartmentDTO getDetail(int department_id) throws Exception{
+		
+		DepartmentDTO dDTO = new DepartmentDTO();
+		
 		//1, 2. DB접속
 		Connection connection = DBConnection.getConnection();
 		
@@ -30,22 +34,23 @@ public class DepartmentDAO {
 		
 		//꺼내올 출력 column이 없거나 하나뿐이기 때문에 while을 쓸 필요가 없음
 		if(rs.next()) {
-			System.out.print(rs.getInt("DEPARTMENT_ID")+"\t");
-			System.out.print(rs.getString("DEPARTMENT_NAME")+"\t");
-			System.out.print(rs.getInt("MANAGER_ID")+"\t");
-			System.out.println(rs.getInt("LOCATION_ID"));
-		}else {
-			System.out.println("데이터가 없습니다");
+			dDTO = new DepartmentDTO();
+			dDTO.setDepartment_id(rs.getInt("DEPARTMENT_ID"));
+			dDTO.setDepartment_name(rs.getString("DEPARTMENT_NAME"));
+			dDTO.setManager_id(rs.getInt("MANAGER_ID"));
+			dDTO.setLocation_id(rs.getInt("LOCATION_ID"));
 		}
 		
 		//7. 연결해제
 		DBConnection.disconnect(rs, st, connection);
 		
+		return dDTO;
 	}
 	
 	
 	
-	public void getList() throws Exception {
+	public ArrayList<DepartmentDTO> getList() throws Exception {
+		ArrayList<DepartmentDTO> ar = new ArrayList<DepartmentDTO>();
 		
 //		//1. 접속 정보 준비
 //		String user = "hr";
@@ -74,13 +79,22 @@ public class DepartmentDAO {
 		ResultSet rs = st.executeQuery(); //rs는 connection에 연결되어있고, connection 쿼리를 st에 저장해줌
 		
 		while(rs.next()) {
-			System.out.print(rs.getInt("DEPARTMENT_ID")+"\t");
-			System.out.print(rs.getString("DEPARTMENT_NAME")+"\t");
-			System.out.print(rs.getInt("MANAGER_ID")+"\t");
-			System.out.println(rs.getInt("LOCATION_ID"));	
+			DepartmentDTO dDTO = new DepartmentDTO();
+			dDTO.setDepartment_id(rs.getInt("DEPARTMENT_ID"));
+			dDTO.setDepartment_name(rs.getString("DEPARTMENT_NAME"));
+			dDTO.setManager_id(rs.getInt("MANAGER_ID"));
+			dDTO.setLocation_id(rs.getInt("LOCATION_ID"));
+			
+			//dDTO가 돌면 이전에 입력된 정보가 없어진다. 이 정보들을 모아둘 ArrayList가 필요함 > 위에 선언하고 오자
+			//ArrayList에 dDTO 정보를 넣어주자
+			ar.add(dDTO);
+			
 		}
 		
 		//7. 연결 해제 - 얘도 공통이라 연결관련 클래스인 DBConnection에서 처리하자.
 		DBConnection.disconnect(rs, st, connection);
+		
+		//마지막으로 데이터를 담아둔 ar을 리턴하자 > DB로 부터 꺼내온 데이터가 사라지는게 아니라 ar에 저장되어 리턴된다.
+		return ar;
 	}
 }
