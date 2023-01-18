@@ -26,15 +26,16 @@ public class LocationController {
 		
 		//무한반복
 		while(check) {
-			System.out.println("1.위치리스트\t2.위치상세정보\t3.종료");
+			System.out.println("1.위치리스트\t2.위치상세정보\t3.주소 검색\t4.종료");
 			int select = sc.nextInt();
+			ArrayList<LocationDTO> ar;
 			
 			switch(select) {
 			default :
 				System.out.println("1~3번 중에서 선택해주세요");
 				break;
 			case 1:
-				ArrayList<LocationDTO> ar = lDAO.getList();
+				ar = lDAO.getList();
 				lView.view(ar);
 				break;
 			case 2:
@@ -48,6 +49,12 @@ public class LocationController {
 				}
 				break;
 			case 3:
+				System.out.println("검색할 주소를 입력하세요");
+				String add = sc.next();
+				ar = lDAO.getFind(add);
+				lView.view(ar);
+				break;
+			case 4:
 				System.out.println("프로그램을 종료합니다");
 				check = false;
 			

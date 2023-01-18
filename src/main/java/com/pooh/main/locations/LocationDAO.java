@@ -9,7 +9,47 @@ import java.util.ArrayList;
 import com.pooh.main.util.DBConnection;
 
 public class LocationDAO {
-//230118 1~2교시 java-DB 연결 준비
+//230118 1~5교시 java-DB 7교시 검색기능
+	
+	//7교시
+	public ArrayList<LocationDTO> getFind(String search) throws Exception{
+		ArrayList<LocationDTO> ar = new ArrayList<LocationDTO>();
+		//1.DB연결
+		Connection connection = DBConnection.getConnection();
+		
+		//2.Query문 작성
+		String sql = "SELECT * FROM LOCATIONS WHERE STREET_ADDRESS LIKE ?"; //바뀌는것을 ?로
+		
+		//3.Query문을 미리 보냄 - connection을 통해
+		PreparedStatement st = connection.prepareStatement(sql);
+		
+		//4.?에 값 넣어주기
+		//String으로 들어가기 때문에 search 문자열 앞뒤로 '' 홑따옴표를 붙여준다.
+		//그럼 결국 Query문에 입력되는 결과값은 '%'a'%'가 되어버려 에러가 발생한다
+		//두가지 해결방법이 있는데, Query문 뒤에 그냥 ?를 넣고 setString에 value를 "%"+search+"%"로 바꾸거나
+		//Query문의 '%?%'를 연결연산자 ||를 사용해서 '%'||a||'%'로 표기하는 방법이 있다.
+		st.setString(1, "%"+search+"%");
+		
+		//5.최종 실행 및 데이터저장
+		ResultSet rs = st.executeQuery();
+		
+		while(rs.next()) {
+			LocationDTO lDTO = new LocationDTO();
+			lDTO.setLocation_id(rs.getInt("LOCATION_ID"));
+			lDTO.setStreet_address(rs.getString("STREET_ADDRESS"));
+			lDTO.setPostal_code(rs.getString("POSTAL_CODE"));
+			lDTO.setCity(rs.getString("CITY"));
+			lDTO.setState_province(rs.getString("STATE_PROVINCE"));
+			lDTO.setCountry_id(rs.getString("COUNTRY_ID"));
+			ar.add(lDTO);
+		}
+		
+		DBConnection.disconnect(rs, st, connection);
+		
+		return ar;
+		
+	} //getFind 메서드 종료
+	
 	
 	public LocationDTO getDetail(int location_id) throws Exception{
 		LocationDTO lDTO = new LocationDTO();
@@ -45,7 +85,7 @@ public class LocationDAO {
 //			System.out.print(rs.getString("STATE_PROVINCE")+"\t");
 //			System.out.println(rs.getString("COUNTRY_ID"));
 		}else {
-			System.out.println("데이터가 없습니다(데이터 범위 : 1000~3200, 100단위)");
+			System.out.println("Data가 없습니다");
 		}
 		
 		//7. 연결해제
