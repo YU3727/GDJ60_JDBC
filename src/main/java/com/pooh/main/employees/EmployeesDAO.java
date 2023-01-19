@@ -25,11 +25,11 @@ public class EmployeesDAO {
 		
 		Connection connection = DBConnection.getConnection();
 		
-		String sql = "SELECT * FROM EMPLOYEES e WHERE LAST_NAME LIKE ?";
+		String sql = "SELECT * FROM EMPLOYEES e WHERE LAST_NAME LIKE ?"; //또는'%||a||%'
 		
 		PreparedStatement st = connection.prepareStatement(sql);
 		
-		st.setString(1, "%"+search+"%");
+		st.setString(1, "%"+search+"%"); //또는 search
 		
 		ResultSet rs = st.executeQuery();
 		
@@ -43,7 +43,7 @@ public class EmployeesDAO {
 			eDTO.setHire_date(rs.getDate("HIRE_DATE"));
 			eDTO.setJob_id(rs.getString("JOB_ID"));
 			eDTO.setSalary(rs.getInt("SALARY"));
-			eDTO.setCommission_pct(rs.getLong("COMMISSION_PCT"));
+			eDTO.setCommission_pct(rs.getDouble("COMMISSION_PCT"));
 			eDTO.setManager_id(rs.getInt("MANAGER_ID"));
 			eDTO.setDepartment_id(rs.getInt("DEPARTMENT_ID"));
 			ar.add(eDTO);
@@ -80,7 +80,7 @@ public class EmployeesDAO {
 			eDTO.setHire_date(rs.getDate("HIRE_DATE"));
 			eDTO.setJob_id(rs.getString("JOB_ID"));
 			eDTO.setSalary(rs.getInt("SALARY"));
-			eDTO.setCommission_pct(rs.getLong("COMMISSION_PCT"));
+			eDTO.setCommission_pct(rs.getDouble("COMMISSION_PCT"));
 			eDTO.setManager_id(rs.getInt("MANAGER_ID"));
 			eDTO.setDepartment_id(rs.getInt("DEPARTMENT_ID"));
 		}
@@ -116,7 +116,7 @@ public class EmployeesDAO {
 			eDTO.setHire_date(rs.getDate("HIRE_DATE"));
 			eDTO.setJob_id(rs.getString("JOB_ID"));
 			eDTO.setSalary(rs.getInt("SALARY"));
-			eDTO.setCommission_pct(rs.getLong("COMMISSION_PCT"));
+			eDTO.setCommission_pct(rs.getDouble("COMMISSION_PCT"));
 			eDTO.setManager_id(rs.getInt("MANAGER_ID"));
 			eDTO.setDepartment_id(rs.getInt("DEPARTMENT_ID"));
 			ar.add(eDTO);		

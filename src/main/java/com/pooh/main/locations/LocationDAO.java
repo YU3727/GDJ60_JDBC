@@ -24,7 +24,7 @@ public class LocationDAO {
 		PreparedStatement st = connection.prepareStatement(sql);
 		
 		//4.?에 값 넣어주기
-		//String으로 들어가기 때문에 search 문자열 앞뒤로 '' 홑따옴표를 붙여준다.
+		//Query문에 문자열을 입력하면 java에서 search 앞뒤로 홑따옴표('')를 자동으로 붙여준다.
 		//그럼 결국 Query문에 입력되는 결과값은 '%'a'%'가 되어버려 에러가 발생한다
 		//두가지 해결방법이 있는데, Query문 뒤에 그냥 ?를 넣고 setString에 value를 "%"+search+"%"로 바꾸거나
 		//Query문의 '%?%'를 연결연산자 ||를 사용해서 '%'||a||'%'로 표기하는 방법이 있다.
@@ -33,9 +33,9 @@ public class LocationDAO {
 		//5.최종 실행 및 데이터저장
 		ResultSet rs = st.executeQuery();
 		
-		while(rs.next()) {
+		while(rs.next()) { //rs.next()는 rs에 저장된 결과값을 한줄 읽어오는것
 			LocationDTO lDTO = new LocationDTO();
-			lDTO.setLocation_id(rs.getInt("LOCATION_ID"));
+			lDTO.setLocation_id(rs.getInt("LOCATION_ID")); //rs에 저장된값중 int값을 get하는데 이름이 "LOCATION_ID"인 곳에서 가져오겠다
 			lDTO.setStreet_address(rs.getString("STREET_ADDRESS"));
 			lDTO.setPostal_code(rs.getString("POSTAL_CODE"));
 			lDTO.setCity(rs.getString("CITY"));
