@@ -6,10 +6,64 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import javax.naming.spi.DirStateFactory.Result;
+
 import com.pooh.main.util.DBConnection;
 
 public class DepartmentDAO {
-//230118 1~2교시 java-DB 연결 준비
+//230118 1~7교시 java-DB 연결, SELECT
+//230119 3교시 JDBC - INSERT / 4교시 DELETE
+	
+	//4교시 - DELETE
+	public int deleteData(DepartmentDTO dDTO) throws Exception{
+		//지울때는 중복되지 않는 데이터(PK) 값으로 지워주는게 좋다.
+		
+		Connection connection = DBConnection.getConnection();
+		
+		String sql = "DELETE DEPARTMENTS WHERE DEPARTMENT_ID = ?";
+		
+		PreparedStatement st = connection.prepareStatement(sql);
+		
+		//필요값이 하나더라도 DAO에서는 DTO로부터 값을 받아오는 식으로 처리한다.
+		st.setInt(1, dDTO.getDepartment_id()); //1번째 물음표에 값을 넣음. 값은 외부에서 매개변수로 받아옴
+		
+		int result = st.executeUpdate(); //executeQuery가 아니라 Update
+		
+		DBConnection.disconnect(st, connection);
+		
+		return result;
+	}
+	
+	
+	//230119 3교시 - INSERT
+	public int setData(DepartmentDTO dDTO) throws Exception{
+		//순서는 똑같다
+		
+		//1.DB연결
+		Connection connection = DBConnection.getConnection();
+		
+		//2.query문 작성 - insert
+		String sql = "INSERT INTO DEPARTMENTS (DEPARTMENT_ID, DEPARTMENT_NAME, MANAGER_ID, LOCATION_ID )\r\n"
+				+ "VALUES (DEPARTMENTS_SEQ.NEXTVAL, ?, ?, ?)"; //받아와야하는 것들은 다 ?다
+		
+		//3.query문 미리 보내기
+		PreparedStatement st = connection.prepareStatement(sql);
+		
+		//4.?에 들어갈 값 세팅 - ?의 순서대로 인덱스번호가 1번부터 매겨짐
+		st.setString(1, dDTO.getDepartment_name());
+		st.setInt(2, dDTO.getManager_id());
+		st.setInt(3, dDTO.getLocation_id()); //지금 데이터가 없고 필요한 값을 받아와야 집어넣을 수 있음. > 매개변수가 필요
+		
+		//5.최종 실행 (INSERT, UPDATE, DELETE는 결과값으로 숫자를 받는다(0실패, 1이상성공)
+		int result = st.executeUpdate();
+		
+		//6.연결 해제 및 리턴값 설정
+		DBConnection.disconnect(st, connection);
+		
+		return result;
+	}
+
+	
 	
 	//3교시 하나의 값을 출력하기
 	public DepartmentDTO getDetail(int department_id) throws Exception{

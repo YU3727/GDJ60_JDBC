@@ -10,6 +10,7 @@ public class DepartmentController {
 	private Scanner sc;
 	private DepartmentDAO dDAO;
 	private DepartmentView dView;
+	private DepartmentInput dInput;
 	
 	
 	//생성자에 객체생성 - 의존성 주입(injection)
@@ -17,16 +18,19 @@ public class DepartmentController {
 		this.sc = new Scanner(System.in);
 		this.dDAO = new DepartmentDAO();
 		this.dView = new DepartmentView();
+		dInput = new DepartmentInput();
 	}
 	
 	
 	//컨트롤러 메서드
 	public void start() throws Exception{
 		boolean check = true;
+		ArrayList<DepartmentDTO> ar = null;
+		DepartmentDTO dDTO = null;
 		
 		//무한반복 돌리기
 		while(check) {
-			System.out.println("1.부서리스트\t2.부서상세정보\t3.종료");
+			System.out.println("1.부서리스트\t2.부서상세정보\t3.부서추가\t4.부서삭제\t5.프로그램종료");
 			int select = sc.nextInt();
 			
 			switch (select) {
@@ -34,13 +38,13 @@ public class DepartmentController {
 				System.out.println("1~3번 메뉴중 선택하세요");
 				break;
 			case 1: //모든부서
-				ArrayList<DepartmentDTO> ar = dDAO.getList();
+				ar = dDAO.getList();
 				dView.view(ar);
 				break;
 			case 2: //한 부서
 				System.out.println("부서 번호를 입력하세요");
 				select = sc.nextInt();
-				DepartmentDTO dDTO = dDAO.getDetail(select);
+				dDTO = dDAO.getDetail(select);
 				if(dDTO != null) {
 					dView.view(dDTO);
 				}else {
@@ -48,6 +52,24 @@ public class DepartmentController {
 				}
 				break;
 			case 3:
+				dDTO = dInput.setData();
+				select = dDAO.setData(dDTO); //dDAO로 가서 입력받은 데이터인 dDTO를 넣어주는데 이 결과값이 int
+				if(select >0) {
+					dView.view("추가 성공");
+				}else {
+					dView.view("추가 실패");
+				}
+				break;
+			case 4:
+				dDTO = dInput.deleteData();
+				select = dDAO.deleteData(dDTO);
+				String msg = "삭제 실패";
+				if(select > 0) {
+					msg = "삭제 성공";
+				}
+				dView.view(msg);
+				break;
+			case 5:
 				System.out.println("프로그램을 종료합니다");
 				check = false;
 			

@@ -10,6 +10,52 @@ import com.pooh.main.util.DBConnection;
 
 public class LocationDAO {
 //230118 1~5교시 java-DB 7교시 검색기능
+//230119 4교시 INSERT, DELETE 메서드 작성
+	
+	//4교시 delete
+	public int deleteData(LocationDTO lDTO) throws Exception{
+		
+		Connection connection = DBConnection.getConnection();
+		
+		String sql = "DELETE LOCATIONS WHERE LOCATION_ID = ?";
+		
+		PreparedStatement st = connection.prepareStatement(sql);
+		
+		st.setInt(1, lDTO.getLocation_id());
+		
+		int result = st.executeUpdate();
+		
+		DBConnection.disconnect(st, connection);
+		
+		return result;
+		
+		
+	}
+	
+	
+	//230119 4교시 insert
+	public int setData(LocationDTO lDTO) throws Exception{
+		
+		Connection connection = DBConnection.getConnection();
+		
+		String sql = "INSERT INTO LOCATIONS (LOCATION_ID, STREET_ADDRESS, POSTAL_CODE, CITY, STATE_PROVINCE, COUNTRY_ID )\r\n"
+				+ "VALUES (LOCATIONS_SEQ.NEXTVAL, ?, ?, ?, ?, ?)"; //location_id를 시퀀스로
+		
+		PreparedStatement st = connection.prepareStatement(sql);
+		
+		st.setString(1, lDTO.getStreet_address());
+		st.setString(2, lDTO.getPostal_code());
+		st.setString(3, lDTO.getCity());
+		st.setString(4, lDTO.getState_province());
+		st.setString(5, lDTO.getCountry_id());
+		
+		int result = st.executeUpdate();
+		
+		DBConnection.disconnect(st, connection);
+		
+		return result;
+	}
+	
 	
 	//7교시
 	public ArrayList<LocationDTO> getFind(String search) throws Exception{
