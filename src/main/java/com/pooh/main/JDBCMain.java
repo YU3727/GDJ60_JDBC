@@ -4,6 +4,7 @@ import com.pooh.main.departments.DepartmentController;
 import com.pooh.main.departments.DepartmentDAO;
 import com.pooh.main.departments.DepartmentDTO;
 import com.pooh.main.employees.EmployeesController;
+import com.pooh.main.employees.EmployeesDAO;
 import com.pooh.main.locations.LocationController;
 import com.pooh.main.locations.LocationDAO;
 import com.pooh.main.locations.LocationDTO;
@@ -24,8 +25,8 @@ public class JDBCMain {
 		
 		try {
 			
-			dCon.start();
-//			eCon.start();
+//			dCon.start();
+			eCon.start();
 //			lCon.start();
 			
 			//test

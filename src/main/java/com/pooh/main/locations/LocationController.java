@@ -30,12 +30,13 @@ public class LocationController {
 		
 		//무한반복
 		while(check) {
-			System.out.println("1.위치리스트\t2.위치상세정보\t3.주소검색(특정문자포함)\t4.위치추가\t5.위치삭제\t6.프로그램종료");
+			System.out.println("1.위치리스트  2.위치상세정보  3.위치검색(문자열로 검색)");
+			System.out.println("4.위치추가  5.위치삭제  6.위치수정  7.프로그램종료");
 			int select = sc.nextInt();
 			
 			switch(select) {
 			default :
-				System.out.println("1~3번 중에서 선택해주세요");
+				System.out.println("1~7번 중에 선택하세요");
 				break;
 			case 1:
 				ar = lDAO.getList();
@@ -75,7 +76,16 @@ public class LocationController {
 					lView.view("삭제 실패");
 				}
 				break;
-			case 6:
+			case 6: //수정
+				lDTO = lInput.updateData();
+				select = lDAO.updateData(lDTO);
+				if(select > 0) {
+					lView.view("수정 성공");
+				}else {
+					lView.view("수정 실패");
+				}
+				break;
+			case 7:
 				System.out.println("프로그램을 종료합니다");
 				check = false;
 			

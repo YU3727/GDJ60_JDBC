@@ -14,7 +14,7 @@ public class EmployeesDTO {
 	private Date hire_date;
 	private String job_id;
 	private Integer salary;
-	private double commission_pct;
+	private Double commission_pct;
 	private Integer manager_id;
 	private Integer department_id;
 	

@@ -12,6 +12,30 @@ public class LocationDAO {
 //230118 1~5교시 java-DB 7교시 검색기능
 //230119 4교시 INSERT, DELETE 메서드 작성
 	
+	
+	//6교시 update
+	public int updateData(LocationDTO lDTO) throws Exception{
+		
+		Connection connection = DBConnection.getConnection();
+		
+		String sql = "UPDATE LOCATIONS SET STREET_ADDRESS = ?, POSTAL_CODE = ?\r\n"
+				+ " WHERE LOCATION_ID = ?";
+		
+		PreparedStatement st = connection.prepareStatement(sql);
+		
+		st.setString(1, lDTO.getStreet_address()); //외부로부터 받아와야함 > 매개변수
+		st.setString(2, lDTO.getPostal_code()); //받아온 postal_code를 st의 ?에 setString해줌
+		st.setInt(3, lDTO.getLocation_id());
+		
+		int result = st.executeUpdate();
+		
+		DBConnection.disconnect(st, connection);
+		
+		return result;
+		
+	}
+	
+	
 	//4교시 delete
 	public int deleteData(LocationDTO lDTO) throws Exception{
 		
@@ -28,7 +52,6 @@ public class LocationDAO {
 		DBConnection.disconnect(st, connection);
 		
 		return result;
-		
 		
 	}
 	

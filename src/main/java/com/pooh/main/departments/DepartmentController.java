@@ -35,7 +35,7 @@ public class DepartmentController {
 			
 			switch (select) {
 			default :
-				System.out.println("1~3번 메뉴중 선택하세요");
+				System.out.println("1~6번 중에 선택하세요");
 				break;
 			case 1: //모든부서
 				ar = dDAO.getList();

@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import com.pooh.main.util.DBConnection;
 
 public class EmployeesDAO {
-//230118 7~8교시 종합 예제(오늘 배운거)
+//230118 7~8교시 종합 예제(SELECT)
+//230119 7~8교시 종합 예제(INSERT, DELETE, UPDATE)
 	
 	//순서
 	//1.DB 연결하기
@@ -17,6 +18,106 @@ public class EmployeesDAO {
 	//4.Query문 내 ?에 넣을 데이터 작성
 	//5.최종 실행 및 데이터 처리(저장하든 출력하든)
 	//6.연결해제 및 return값 있으면 return 하기
+	
+	//230119 8교시 Function - 월급의 평균 구하기
+	public void getAvg() throws Exception{
+		Connection connection = DBConnection.getConnection();
+		
+		String sql = "SELECT AVG(SALARY), SUM(SALARY) FROM EMPLOYEES";
+		
+		PreparedStatement st = connection.prepareStatement(sql);
+		
+		ResultSet rs = st.executeQuery();
+		
+		//데이터 무조건 옴 - next()를 한번은 호출해야 꺼내온다.
+		rs.next();
+		
+		System.out.println(rs.getDouble(1));
+		System.out.println(rs.getInt(2));
+		//근데 받은 데이터는 avg, sum으로 2개인데 return은 한개만 할 수있다. 어떻게 해야할까? 고민해보자.
+		//ArrayList로 받아서 하나씩 뽑아내기?
+		
+		DBConnection.disconnect(rs, st, connection);
+		
+	}
+	
+	
+	//사원정보 수정
+	public int updateData(EmployeesDTO eDTO) throws Exception{
+		
+		Connection connection = DBConnection.getConnection();
+		
+		//외부 프로그램이랑 통신할때의 데이터 타입은 String
+		String sql = "UPDATE EMPLOYEES SET FIRST_NAME = ?, LAST_NAME = ?, EMAIL = ?, SALARY = ?, COMMISSION_PCT = ? "
+				+ "WHERE EMPLOYEE_ID = ?"; 
+		
+		PreparedStatement st = connection.prepareStatement(sql);
+		
+		st.setString(1, eDTO.getFirst_name()); //외부에서 매개변수값 받아서 넣자
+		st.setString(2, eDTO.getLast_name());
+		st.setString(3, eDTO.getEmail());
+		st.setInt(4, eDTO.getSalary());
+		Double d = 0.0;
+		String a= d.toString();
+		st.setDouble(5, eDTO.getCommission_pct()); //null 일때 어떻게 해야할지 생각
+		st.setInt(6, eDTO.getEmployee_id());
+		
+		int select = st.executeUpdate();
+		
+		DBConnection.disconnect(st, connection);
+		
+		return select;
+		
+	}
+	
+	
+	//사원정보 삭제
+	public int deleteData(EmployeesDTO eDTO) throws Exception{
+		
+		Connection connection = DBConnection.getConnection();
+		
+		String sql = "DELETE EMPLOYEES WHERE EMPLOYEE_ID = ?";
+		
+		PreparedStatement st = connection.prepareStatement(sql);
+		
+		st.setInt(1, eDTO.getEmployee_id());
+		
+		int result = st.executeUpdate();
+		
+		DBConnection.disconnect(st, connection);
+		
+		return result;
+		
+	}
+	
+	
+	//사원정보 추가
+	public int setData(EmployeesDTO eDTO) throws Exception{
+		
+		Connection connection = DBConnection.getConnection();
+		
+		String sql = "INSERT INTO EMPLOYEES (EMPLOYEE_ID, FIRST_NAME, LAST_NAME, EMAIL, PHONE_NUMBER, HIRE_DATE, JOB_ID, SALARY, COMMISSION_PCT, MANAGER_ID, DEPARTMENT_ID)\r\n"
+				+ "VALUES (EMPLOYEES_SEQ.NEXTVAL, ?, ?, ?, ?, sysdate, ?, ?, ?, ?, ?)";
+		
+		PreparedStatement st = connection.prepareStatement(sql);
+		
+		st.setString(1, eDTO.getFirst_name());
+		st.setString(2, eDTO.getLast_name());
+		st.setString(3, eDTO.getEmail());
+		st.setString(4, eDTO.getPhone_number());
+		st.setString(5, eDTO.getJob_id());
+		st.setInt(6, eDTO.getSalary());
+		st.setDouble(7, eDTO.getCommission_pct());
+		st.setInt(8, eDTO.getManager_id());
+		st.setInt(9, eDTO.getDepartment_id());
+		
+		int result = st.executeUpdate();
+		
+		DBConnection.disconnect(st, connection);
+		
+		return result;
+		
+	}
 	
 	
 	//특정 사원 검색(Last Name)해서 정보 보여주기

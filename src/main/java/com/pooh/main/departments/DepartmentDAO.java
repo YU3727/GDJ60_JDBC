@@ -19,7 +19,7 @@ public class DepartmentDAO {
 		
 		Connection connection = DBConnection.getConnection();
 		
-		String sql = "UPDATE DEPARTMENTS SET DEPARTMENT_NAME = ?, MANAGER_ID = ?, LOCATION_ID = ? )"
+		String sql = "UPDATE DEPARTMENTS SET DEPARTMENT_NAME=?, MANAGER_ID=?, LOCATION_ID=? )"
 				+ "WHERE DEPARTMENT_ID = ?)";
 		
 		PreparedStatement st = connection.prepareStatement(sql);

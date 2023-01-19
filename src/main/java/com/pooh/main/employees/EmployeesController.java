@@ -12,6 +12,7 @@ public class EmployeesController {
 	ArrayList<EmployeesDTO> ar;
 	EmployeesView eView;
 	EmployeesDTO eDTO;
+	EmployeesInput eInput;
 	
 	//생성자에서 객체생성 - 의존성 주입
 	public EmployeesController() {
@@ -20,6 +21,7 @@ public class EmployeesController {
 		ar = new ArrayList<EmployeesDTO>(); //this 생략가능
 		eView = new EmployeesView();
 		eDTO = new EmployeesDTO();
+		eInput = new EmployeesInput();
 	}
 	
 	
@@ -29,13 +31,18 @@ public class EmployeesController {
 		String msg = "";
 		
 		while(check) {
-			System.out.println("작업을 선택해주세요");
-			System.out.println("1.사원정보리스트\t2.개별사원정보\t3.사원검색(Last Name)\t4.프로그램 종료");
+			System.out.println("0.전체사원정보  1.간단한 전체사원정보  2.개별사원정보  3.사원검색(Last Name)");
+			System.out.println("4.사원정보추가  5.사원정보삭제  6.사원정보수정  7.프로그램종료");
+			
 			select = sc.nextInt();
 			
 			switch (select) {
 			default :
-				System.out.println("1~4번 메뉴중에 선택해주세요");
+				System.out.println("1~7번 메뉴중에 선택해주세요");
+				break;
+			case 0:
+				ar = eDAO.getList();
+				eView.view(ar);
 				break;
 			case 1: //사원정보리스트
 				ar = eDAO.getList();
@@ -62,7 +69,34 @@ public class EmployeesController {
 					eView.view("Data가 없습니다");
 				}
 				break;
-			case 4:
+			case 4: //사원정보추가
+				eDTO = eInput.setData();
+				select = eDAO.setData(eDTO);
+				if(select > 0) {
+					eView.view("입력 성공");
+				}else {
+					eView.view("입력 실패");
+				}
+				break;
+			case 5: //사원정보삭제
+				eDTO = eInput.deleteData();
+				select = eDAO.deleteData(eDTO);
+				if(select > 0) {
+					eView.view("삭제 성공");
+				}else {
+					eView.view("삭제 실패");
+				}
+				break;
+			case 6: //사원정보수정
+				eDTO = eInput.updateData();
+				select = eDAO.updateData(eDTO);
+				if(select >0 ) {
+					eView.view("수정 성공");
+				}else {
+					eView.view("수정 실패");
+				}
+				break;
+			case 7: //종료
 				System.out.println("프로그램을 종료합니다");
 				check = false;
 			

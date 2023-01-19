@@ -11,13 +11,27 @@ public class LocationInput {
 		sc = new Scanner(System.in);
 	}
 	
+	//수정할 때
+	public LocationDTO updateData() {
+		LocationDTO lDTO = new LocationDTO();
+		
+		System.out.println("수정할 위치번호를 입력하세요");
+		lDTO.setLocation_id(sc.nextInt());
+		System.out.println("수정할 주소를 입력하세요");
+		lDTO.setStreet_address(sc.next());
+		System.out.println("수정할 우편번호를 입력하세요");
+		lDTO.setPostal_code(sc.next());
+		
+		return lDTO;
+	}
 	
-	//입력할 떄
+	
+	//입력할 때
 	public LocationDTO setData() {
 		LocationDTO lDTO = new LocationDTO();
 		
-		System.out.println("위치 번호를 입력하세요");
-		lDTO.setLocation_id(sc.nextInt());
+//		System.out.println("위치번호를 입력하세요");
+//		lDTO.setLocation_id(sc.nextInt());
 		System.out.println("주소를 입력하세요");
 		lDTO.setStreet_address(sc.next());
 		System.out.println("우편번호를 입력하세요");
@@ -40,8 +54,6 @@ public class LocationInput {
 		System.out.println("삭제할 위치번호를 입력하세요");
 		lDTO.setLocation_id(sc.nextInt());
 		
-		return lDTO;
-		
+		return lDTO;	
 	}
-	
 }
