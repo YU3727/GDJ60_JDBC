@@ -12,7 +12,32 @@ import com.pooh.main.util.DBConnection;
 
 public class DepartmentDAO {
 //230118 1~7교시 java-DB 연결, SELECT
-//230119 3교시 JDBC - INSERT / 4교시 DELETE
+//230119 3교시 JDBC - INSERT / 4교시 DELETE / 5교시 UPDATE
+	
+	//5교시 - UPDATE
+	public int updateData(DepartmentDTO dDTO) throws Exception {
+		
+		Connection connection = DBConnection.getConnection();
+		
+		String sql = "UPDATE DEPARTMENTS SET DEPARTMENT_NAME = ?, MANAGER_ID = ?, LOCATION_ID = ? )"
+				+ "WHERE DEPARTMENT_ID = ?)";
+		
+		PreparedStatement st = connection.prepareStatement(sql);
+		
+		//?의 순서는 Query문에 있는 순서대로다(table상 id는 1번인덱스지만, query문에서는 4번째?기 떄문에 4번임)
+		st.setString(1, dDTO.getDepartment_name());
+		st.setInt(2, dDTO.getManager_id());
+		st.setInt(3, dDTO.getLocation_id());
+		st.setInt(4, dDTO.getDepartment_id());
+		
+		int result = st.executeUpdate();
+		
+		DBConnection.disconnect(st, connection);
+		
+		return result;
+		
+	}
+	
 	
 	//4교시 - DELETE
 	public int deleteData(DepartmentDTO dDTO) throws Exception{

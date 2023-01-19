@@ -30,7 +30,7 @@ public class DepartmentController {
 		
 		//무한반복 돌리기
 		while(check) {
-			System.out.println("1.부서리스트\t2.부서상세정보\t3.부서추가\t4.부서삭제\t5.프로그램종료");
+			System.out.println("1.부서리스트\t2.부서상세정보\t3.부서추가\t4.부서삭제\t5.부서정보수정\t6.종료");
 			int select = sc.nextInt();
 			
 			switch (select) {
@@ -70,6 +70,15 @@ public class DepartmentController {
 				dView.view(msg);
 				break;
 			case 5:
+				dDTO = dInput.updateData();
+				select = dDAO.updateData(dDTO);
+				if(select > 0) {
+					dView.view("수정 성공");
+				}else {
+					dView.view("수정 실패");
+				}
+				break;
+			case 6:
 				System.out.println("프로그램을 종료합니다");
 				check = false;
 			

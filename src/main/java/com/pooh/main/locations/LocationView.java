@@ -23,11 +23,11 @@ public class LocationView {
 	
 	//하나의 지역정보를 보고싶을때
 	public void view(LocationDTO lDTO) {
-		System.out.println(lDTO.getLocation_id());
-		System.out.println(lDTO.getStreet_address());
-		System.out.println(lDTO.getPostal_code());
-		System.out.println(lDTO.getCity());
-		System.out.println(lDTO.getState_province());
+		System.out.print(lDTO.getLocation_id()+"\t");
+		System.out.print(lDTO.getStreet_address()+"\t");
+		System.out.print(lDTO.getPostal_code()+"\t");
+		System.out.print(lDTO.getCity()+"\t");
+		System.out.print(lDTO.getState_province()+"\t");
 		System.out.println(lDTO.getCountry_id());
 	}
 	
