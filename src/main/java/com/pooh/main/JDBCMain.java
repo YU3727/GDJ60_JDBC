@@ -15,19 +15,11 @@ public class JDBCMain {
 	public static void main(String[] args) {
 		
 		System.out.println("Start");
-		DepartmentController dCon = new DepartmentController(); //생성자 호출
-		LocationController lCon = new LocationController();
-		EmployeesController eCon = new EmployeesController();
-		
-		//test
-		DepartmentDAO dDAO = new DepartmentDAO();
-		LocationDAO lDAO = new LocationDAO();
-		
+		FrontController fCon = new FrontController(); //생성자 호출
+
 		try {
 			
-//			dCon.start();
-			eCon.start();
-//			lCon.start();
+			fCon.start();
 			
 			//test
 //			DepartmentDTO dDTO = new DepartmentDTO();

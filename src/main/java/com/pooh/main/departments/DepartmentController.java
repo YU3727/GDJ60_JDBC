@@ -30,7 +30,7 @@ public class DepartmentController {
 		
 		//무한반복 돌리기
 		while(check) {
-			System.out.println("1.부서리스트\t2.부서상세정보\t3.부서추가\t4.부서삭제\t5.부서정보수정\t6.종료");
+			System.out.println("1.부서리스트\t2.부서상세정보\t3.부서추가\t4.부서삭제\t5.부서정보수정\t6.메인으로");
 			int select = sc.nextInt();
 			
 			switch (select) {
@@ -79,7 +79,7 @@ public class DepartmentController {
 				}
 				break;
 			case 6:
-				System.out.println("프로그램을 종료합니다");
+				System.out.println("메인으로 나갑니다");
 				check = false;
 			
 			}

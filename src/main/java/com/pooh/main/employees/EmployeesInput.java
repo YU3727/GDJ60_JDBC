@@ -57,6 +57,8 @@ public class EmployeesInput {
 		eDTO.setEmail(sc.next());
 		System.out.println("전화번호를 입력하세요");
 		eDTO.setPhone_number(sc.next());
+		System.out.println("날짜를 입력하세요");
+		eDTO.setHire_date(sc.next());
 		while (check) {
 			System.out.println("직군과 직급을 선택하세요");
 			System.out.println("1.IT_PROG  2.ST_CLERK  3.SA_REP  4.HR_REP");

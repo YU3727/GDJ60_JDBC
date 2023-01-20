@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.pooh.main.util.DBConnection;
 
@@ -20,10 +21,13 @@ public class EmployeesDAO {
 	//6.연결해제 및 return값 있으면 return 하기
 	
 	//230119 8교시 Function - 월급의 평균 구하기
-	public void getAvg() throws Exception{
+	public HashMap<String, Double> getAvg() throws Exception{
+		
+		HashMap<String, Double> hm = new HashMap<String, Double>();
+		
 		Connection connection = DBConnection.getConnection();
 		
-		String sql = "SELECT AVG(SALARY), SUM(SALARY) FROM EMPLOYEES";
+		String sql = "SELECT AVG(SALARY)*12+100 AS A, SUM(SALARY) B FROM EMPLOYEES";
 		
 		PreparedStatement st = connection.prepareStatement(sql);
 		
@@ -31,14 +35,33 @@ public class EmployeesDAO {
 		
 		//데이터 무조건 옴 - next()를 한번은 호출해야 꺼내온다.
 		rs.next();
+		//근데 받은 데이터는 avg, sum으로 2개인데 return은 한개만 할 수있다. 어떻게 해야할까? 고민해보자.
+		//해결방법
+		
+//		비추 - avg값을 salary에 넣어서 돌려주는방법이 있지만 헷갈릴수 있어서 좋은방법은 아님.(특히 협업할때)
+//		EmployeesDTO eDTO = new EmployeesDTO();
+//		eDTO.setSalary(rs.getDouble("A"));
+//		eDTO.setCommission_pct(rs);
+		
+//		1. List, Array로 받아서 하나씩 뽑아내기? // 배열도 가능
+//		ArrayList<Double> ar = null;
+//		ar.add(rs.getDouble(1));
+//		ar.add(rs.getInt(2));
+		
+//		2. DTO(Class) - 다른데서 자주 쓸거면 괜찮지만 단발적으로 쓸거면 고민해봐야함
+//		이제껏 DTO는 table과 연동하여 동일하게 만들었지만, 위의 두가지 데이터만 뽑아내고싶을때는
+//		avg, sum만 변수로 담는 Class를 따로 선언해서 해당 Class에 넣고 그 타입을 리턴해도 좋다
+		
+		//3. Map(kay, value)
+		hm.put("avg", rs.getDouble("A"));
+		hm.put("sum", rs.getDouble(2));
 		
 		System.out.println(rs.getDouble(1));
 		System.out.println(rs.getInt(2));
-		//근데 받은 데이터는 avg, sum으로 2개인데 return은 한개만 할 수있다. 어떻게 해야할까? 고민해보자.
-		//ArrayList로 받아서 하나씩 뽑아내기?
 		
 		DBConnection.disconnect(rs, st, connection);
 		
+		return hm;
 	}
 	
 	
@@ -97,7 +120,7 @@ public class EmployeesDAO {
 		Connection connection = DBConnection.getConnection();
 		
 		String sql = "INSERT INTO EMPLOYEES (EMPLOYEE_ID, FIRST_NAME, LAST_NAME, EMAIL, PHONE_NUMBER, HIRE_DATE, JOB_ID, SALARY, COMMISSION_PCT, MANAGER_ID, DEPARTMENT_ID)\r\n"
-				+ "VALUES (EMPLOYEES_SEQ.NEXTVAL, ?, ?, ?, ?, sysdate, ?, ?, ?, ?, ?)";
+				+ "VALUES (EMPLOYEES_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		PreparedStatement st = connection.prepareStatement(sql);
 		
@@ -105,11 +128,12 @@ public class EmployeesDAO {
 		st.setString(2, eDTO.getLast_name());
 		st.setString(3, eDTO.getEmail());
 		st.setString(4, eDTO.getPhone_number());
-		st.setString(5, eDTO.getJob_id());
-		st.setInt(6, eDTO.getSalary());
-		st.setDouble(7, eDTO.getCommission_pct());
-		st.setInt(8, eDTO.getManager_id());
-		st.setInt(9, eDTO.getDepartment_id());
+		st.setString(5, eDTO.getHire_date());
+		st.setString(6, eDTO.getJob_id());
+		st.setInt(7, eDTO.getSalary());
+		st.setDouble(8, eDTO.getCommission_pct());
+		st.setInt(9, eDTO.getManager_id());
+		st.setInt(10, eDTO.getDepartment_id());
 		
 		int result = st.executeUpdate();
 		
@@ -141,7 +165,7 @@ public class EmployeesDAO {
 			eDTO.setLast_name(rs.getString("LAST_NAME"));
 			eDTO.setEmail(rs.getString("EMAIL"));
 			eDTO.setPhone_number(rs.getString("PHONE_NUMBER"));
-			eDTO.setHire_date(rs.getDate("HIRE_DATE"));
+			eDTO.setHire_date(rs.getString("HIRE_DATE"));
 			eDTO.setJob_id(rs.getString("JOB_ID"));
 			eDTO.setSalary(rs.getInt("SALARY"));
 			eDTO.setCommission_pct(rs.getDouble("COMMISSION_PCT"));
@@ -178,7 +202,7 @@ public class EmployeesDAO {
 			eDTO.setLast_name(rs.getString("LAST_NAME"));
 			eDTO.setEmail(rs.getString("EMAIL"));
 			eDTO.setPhone_number(rs.getString("PHONE_NUMBER"));
-			eDTO.setHire_date(rs.getDate("HIRE_DATE"));
+			eDTO.setHire_date(rs.getString("HIRE_DATE"));
 			eDTO.setJob_id(rs.getString("JOB_ID"));
 			eDTO.setSalary(rs.getInt("SALARY"));
 			eDTO.setCommission_pct(rs.getDouble("COMMISSION_PCT"));
@@ -214,7 +238,7 @@ public class EmployeesDAO {
 			eDTO.setLast_name(rs.getString("LAST_NAME"));
 			eDTO.setEmail(rs.getString("EMAIL"));
 			eDTO.setPhone_number(rs.getString("PHONE_NUMBER"));
-			eDTO.setHire_date(rs.getDate("HIRE_DATE"));
+			eDTO.setHire_date(rs.getString("HIRE_DATE"));
 			eDTO.setJob_id(rs.getString("JOB_ID"));
 			eDTO.setSalary(rs.getInt("SALARY"));
 			eDTO.setCommission_pct(rs.getDouble("COMMISSION_PCT"));

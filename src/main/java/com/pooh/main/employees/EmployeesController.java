@@ -32,7 +32,7 @@ public class EmployeesController {
 		
 		while(check) {
 			System.out.println("0.전체사원정보  1.간단한 전체사원정보  2.개별사원정보  3.사원검색(Last Name)");
-			System.out.println("4.사원정보추가  5.사원정보삭제  6.사원정보수정  7.프로그램종료");
+			System.out.println("4.사원정보추가  5.사원정보삭제  6.사원정보수정  7.메인으로");
 			
 			select = sc.nextInt();
 			
@@ -97,7 +97,7 @@ public class EmployeesController {
 				}
 				break;
 			case 7: //종료
-				System.out.println("프로그램을 종료합니다");
+				System.out.println("메인으로 나갑니다");
 				check = false;
 			
 			} //switch case 끝

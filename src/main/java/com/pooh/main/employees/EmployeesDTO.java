@@ -11,7 +11,7 @@ public class EmployeesDTO {
 	private String last_name;
 	private String email;
 	private String phone_number;
-	private Date hire_date;
+	private String hire_date;
 	private String job_id;
 	private Integer salary;
 	private Double commission_pct;
@@ -62,11 +62,11 @@ public class EmployeesDTO {
 		this.phone_number = phone_number;
 	}
 
-	public Date getHire_date() {
+	public String getHire_date() {
 		return hire_date;
 	}
 
-	public void setHire_date(Date hire_date) {
+	public void setHire_date(String hire_date) {
 		this.hire_date = hire_date;
 	}
 
@@ -86,11 +86,11 @@ public class EmployeesDTO {
 		this.salary = salary;
 	}
 
-	public double getCommission_pct() {
+	public Double getCommission_pct() {
 		return commission_pct;
 	}
 
-	public void setCommission_pct(double commission_pct) {
+	public void setCommission_pct(Double commission_pct) {
 		this.commission_pct = commission_pct;
 	}
 
@@ -110,5 +110,4 @@ public class EmployeesDTO {
 		this.department_id = department_id;
 	}
 
-	
 }
