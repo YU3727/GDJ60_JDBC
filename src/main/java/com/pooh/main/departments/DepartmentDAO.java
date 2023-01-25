@@ -18,7 +18,7 @@ public class DepartmentDAO {
 	
 	//230125 4교시 join
 	//부서 번호가 30번인 부서에 근무하는 사원들의 이름과 부서명을 출력
-	public void getInfos() throws Exception{
+	public DepartmentDTO getInfos() throws Exception{
 		
 		Connection connection = DBConnection.getConnection();
 		
@@ -44,7 +44,7 @@ public class DepartmentDAO {
 			dDTO.geteDTOs().add(eDTO);
 			
 		}
-		
+		return dDTO;
 	}
 	
 	
@@ -81,6 +81,7 @@ public class DepartmentDAO {
 		
 		return dDTO;
 	}
+	
 	
 	//5교시 - UPDATE
 	public int updateData(DepartmentDTO dDTO) throws Exception {

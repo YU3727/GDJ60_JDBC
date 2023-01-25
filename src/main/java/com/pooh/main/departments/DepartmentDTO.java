@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.pooh.main.employees.EmployeesDTO;
 
 public class DepartmentDTO {
-//230118 4교시 - DB와 연결할 떄 DTO가 필요하다.
+//230118 4교시 - DB와 연결할 때 DTO가 필요하다.
 	
 	//DTO 만들때의 규칙
 	
