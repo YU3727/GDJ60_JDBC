@@ -8,11 +8,79 @@ import java.util.ArrayList;
 
 import javax.naming.spi.DirStateFactory.Result;
 
+import com.pooh.main.employees.EmployeesDTO;
 import com.pooh.main.util.DBConnection;
 
 public class DepartmentDAO {
 //230118 1~7교시 java-DB 연결, SELECT
 //230119 3교시 JDBC - INSERT / 4교시 DELETE / 5교시 UPDATE
+//230125 4교시 join
+	
+	//230125 4교시 join
+	//부서 번호가 30번인 부서에 근무하는 사원들의 이름과 부서명을 출력
+	public void getInfos() throws Exception{
+		
+		Connection connection = DBConnection.getConnection();
+		
+		String sql = "SELECT E.FIRST_NAME, D.DEPARTMENT_NAME "
+				+ "FROM EMPLOYEES E "
+				+ "INNER JOIN DEPARTMENT D "
+				+ "ON (E.DEPARTMENT_ID = D.DEPARTMENT_ID) "
+				+ "WHERE D.DEPARTMENT_ID = 30";
+		
+		PreparedStatement st = connection.prepareStatement(sql);
+		
+		ResultSet rs = st.executeQuery();
+		DepartmentDTO dDTO = new DepartmentDTO();
+		dDTO.seteDTOs(new ArrayList<EmployeesDTO>()); //dDTO내 arraylist는 하나의 공간만 만들면됨
+		
+		while(rs.next()) {
+			//부서정보는 한개, 사원정보는 하나의 부서내에 여러번 들어가는거
+			if(dDTO.getDepartment_name() == null) {
+				dDTO.setDepartment_name(rs.getString("DEPARTMENT_NAME"));
+			}
+			EmployeesDTO eDTO = new EmployeesDTO(); //사원이 여러명 만들어져야 하니까 반복마다 만듬
+			eDTO.setFirst_name(rs.getString("FIRST_NAME"));
+			dDTO.geteDTOs().add(eDTO);
+			
+		}
+		
+	}
+	
+	
+	//230125 4교시 join - 지옥인데?
+	//여러개의 table이 모여서 하나의 결과를 만들기 때문에 join을 사용하면 table을 묶을 필요가 있음.
+	public DepartmentDTO getInfo() throws Exception{
+		DepartmentDTO dDTO = null;
+		
+		Connection connection = DBConnection.getConnection();
+		
+		String sql = "SELECT E.FIRST_NAME, D.DEPARTMENT_NAME "
+				+ "FROM EMPLOYEES E "
+				+ "INNER JOIN "
+				+ "DEPARTMENTS D "
+				+ "ON(E.DEPARTMENT_ID = D.DEPARTMENT_ID) "
+				+ "WHERE E.EMPLOYEE_ID = 100";
+		
+		PreparedStatement st = connection.prepareStatement(sql);
+		
+		ResultSet rs = st.executeQuery();
+		
+		//받은 데이터는 employee, department, 리턴타입은 한개라 두 데이터를 하나로 묶어야함
+		//list나 Map을 써야한다. > Object로 집어넣고 꺼낼때 형변환을 해줘야함
+		if(rs.next()) {
+			//값이 있냐고 조회했을때 값이 있으면 dDTO 생성
+			dDTO = new DepartmentDTO();
+			dDTO.seteDTOs(new ArrayList<EmployeesDTO>());
+			dDTO.setDepartment_name(rs.getString("DEPARTMENT_NAME"));
+			dDTO.geteDTOs().get(0).setFirst_name(rs.getString("FIRST_NAME"));
+//			EmployeesDTO eDTO = new EmployeesDTO();
+//			eDTO.setFirst_name(rs.getString("FIRST_NAME"));
+//			dDTO.geteDTO().add(eDTO);
+		}
+		
+		return dDTO;
+	}
 	
 	//5교시 - UPDATE
 	public int updateData(DepartmentDTO dDTO) throws Exception {
