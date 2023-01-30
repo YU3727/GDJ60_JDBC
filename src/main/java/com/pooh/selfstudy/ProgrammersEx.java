@@ -1,14 +1,12 @@
 package com.pooh.selfstudy;
 
-import com.pooh.main.TempCalculator;
-
 public class ProgrammersEx {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
 		
-		TempCalculator tp = new TempCalculator();
+		ProgrammersEx tp = new ProgrammersEx();
 		int[] a = tp.solution(1, 2, 3, 4);
 		for(int i=0; i<a.length; i++) {
 			System.out.println(a[i]);
